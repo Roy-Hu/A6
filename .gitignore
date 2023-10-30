@@ -1,0 +1,5 @@
+core*
+*.o
+.vscode
+2
+Build/bin

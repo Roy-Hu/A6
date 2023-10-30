@@ -68,6 +68,7 @@ void ScanJoin :: run () {
 	MyDB_RecordPtr leftInputRec = leftTable->getEmptyRecord ();
 
 	// and get the various functions whose output we'll hash
+	// equalityChecks example: pair (string ("[l_suppkey]"), string ("[r_suppkey]"))
 	vector <func> leftEqualities;
 	for (auto &p : equalityChecks) {
 		leftEqualities.push_back (leftInputRec->compileComputation (p.first));
@@ -123,6 +124,8 @@ void ScanJoin :: run () {
 	combinedRec->buildFrom (leftInputRec, rightInputRec);
 
 	// now, get the final predicate over it
+
+	// final predicate example: "&& ( == ([l_suppkey], [r_suppkey]), == ([l_name], [r_name]))"
 	func finalPredicate = combinedRec->compileComputation (finalSelectionPredicate);
 
 	// and get the final set of computatoins that will be used to buld the output record
